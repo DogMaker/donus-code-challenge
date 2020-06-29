@@ -1,4 +1,4 @@
-package main.domain
+package main.domain.entities
 
 import kotlin.collections.ArrayList
 

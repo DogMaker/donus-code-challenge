@@ -1,5 +1,6 @@
-package main.domain
+package main.domain.entities
 
+import main.domain.entities.Details
 import java.util.Date
 
 data class Movie(
