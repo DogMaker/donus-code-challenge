@@ -1,0 +1,13 @@
+curl --location --request POST 'localhost:8080/cadastro' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "string",
+    "releaseDate": "10/28/90",
+    "censured": true,
+    "details": {
+        "direction": "string",
+        "cast": [
+            "arrayList"
+        ]
+    }
+}'
