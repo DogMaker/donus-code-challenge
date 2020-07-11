@@ -26,9 +26,11 @@ fun Application.routesModule() {
             val responseObj = SaveMovieController.create(json)
             val responseJson = objectMapperConfig()!!.writeValueAsString(responseObj)
             call.respond(
-                    TextContent (responseJson!!,
-                    ContentType.Application.Json,
-                    HttpStatusCode.Created)
+                    TextContent (
+                            responseJson!!,
+                            ContentType.Application.Json,
+                            HttpStatusCode.Created
+                    )
             )
         }
     }
