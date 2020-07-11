@@ -2,6 +2,7 @@ package main.application.web.routes
 
 import io.ktor.application.Application
 import io.ktor.application.call
+import io.ktor.content.TextContent
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receiveText
@@ -11,6 +12,7 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import main.application.web.controller.SaveMovieController
+import main.application.web.controller.objectMapperConfig
 
 
 fun Application.routesModule() {
@@ -21,8 +23,11 @@ fun Application.routesModule() {
 
         post("/cadastro") {
             val json = call.receiveText()
-            val response = SaveMovieController.create(json)
-            call.respond(HttpStatusCode.Created,response.toString())
+            val responseObj = SaveMovieController.create(json)
+            val responseJson = objectMapperConfig()!!.writeValueAsString(responseObj)
+            call.respond(TextContent (responseJson!!,
+                    ContentType.Application.Json,
+                    HttpStatusCode.Created))
         }
     }
 }
