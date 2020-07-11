@@ -3,7 +3,9 @@ package main.application.web.routes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.request.receiveText
+import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.post
@@ -20,7 +22,7 @@ fun Application.routesModule() {
         post("/cadastro") {
             val json = call.receiveText()
             val response = SaveMovieController.create(json)
-            call.respondText(response, ContentType.Text.Plain)
+            call.respond(HttpStatusCode.Created,response.toString())
         }
     }
 }
