@@ -13,6 +13,8 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import main.application.web.controller.SaveMovieController
 import main.application.web.controller.objectMapperConfig
+import main.application.web.validations.MovieValidations
+import main.commons.ErrorResponse
 
 
 fun Application.routesModule() {
@@ -25,6 +27,18 @@ fun Application.routesModule() {
             val json = call.receiveText()
             val responseObj = SaveMovieController.create(json)
             val responseJson = objectMapperConfig()!!.writeValueAsString(responseObj)
+            val fields = MovieValidations().requiredFields(responseObj)
+            if(fields.size > 0){
+                val messageError = ErrorResponse.create("Os campos não devem ser vazios ou nulos", fields)
+                val fieldsResponse = objectMapperConfig()!!.writeValueAsString(messageError)
+                call.respond(
+                        TextContent (
+                                fieldsResponse,
+                                ContentType.Application.Json,
+                                HttpStatusCode.BadRequest
+                        )
+                )
+            }
             call.respond(
                     TextContent (
                             responseJson!!,
