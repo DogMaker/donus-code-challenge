@@ -1,25 +1,40 @@
 package main.application.web.validations
 
-import main.domain.entities.MovieResponse
+import main.commons.exceptions.NotNullFieldsException
+import main.domain.entities.Movie
 
 class MovieValidations {
     private val ary = ArrayList<String>()
 
-    fun requiredFields(json: MovieResponse): ArrayList<String> {
-        if (json.movie.name.isBlank()) ary.add("name")
-        if (json.movie.details.cast.contains(" ")
-                ||json.movie.details.cast.contains("")) ary.add("details.cast")
-        if (json.movie.details.cast.size == 0 ) ary.add("details.cast")
-        if (json.movie.details.direction.isBlank()) ary.add("details.direction")
+    fun requiredFields(json: Movie): ArrayList<String> {
+        try {
+            json.name.isBlank()
+        } catch (e: Exception) {
+            throw NotNullFieldsException()
+        }
+        when {
+            json.name.isBlank() -> throw NotNullFieldsException()
+            else -> {
+                return ary
+            }
 
-        return ary
-    }
+            /*
+                if (json.name.isBlank()) ary.add("O campo name deve ser informado")
 
-    fun date(){
+        if (json.details.cast.contains(" ")
+                ||json.details.cast.contains("")) ary.add("Os item do cast não podem ter valores em brancos ou vazios")
+        if (json.details.cast.size == 0 ) ary.add("Deve existir ao menos um item na lista de cast")
+        if (json.details.direction.isBlank()) ary.add("O campo direction deve ser informado")
+*/
 
-    }
+        }
 
-    fun cast(){
+        fun date() {
 
+        }
+
+        fun cast() {
+
+        }
     }
 }
