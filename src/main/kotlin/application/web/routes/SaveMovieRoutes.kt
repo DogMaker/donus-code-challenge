@@ -3,7 +3,6 @@ package main.application.web.routes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.content.TextContent
-import io.ktor.features.BadRequestException
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receiveText
@@ -14,9 +13,7 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import main.application.web.controller.SaveMovieController
 import main.application.web.controller.objectMapperConfig
-import javax.validation.ConstraintViolation
-import javax.xml.validation.Validator
-
+import main.application.web.validations.MovieValidations
 
 
 fun Application.routesModule() {
@@ -29,22 +26,13 @@ fun Application.routesModule() {
             val json = call.receiveText()
             val responseObj = SaveMovieController.create(json)
             val responseJson = objectMapperConfig()!!.writeValueAsString(responseObj)
-
             call.respond(
-                    TextContent (
+                    TextContent(
                             responseJson!!,
                             ContentType.Application.Json,
                             HttpStatusCode.Created
                     )
             )
         }
-        @Throws(BadRequestException::class)
-        fun <T : Any> T.validate(validator: Validator) {
-//            validator.validate(this)
-//                    .takeIf { it !== "" }
-//                    ?.let { throw BadRequestException(it.first().messageWithFieldName()) }
-        }
-
-        fun <T : Any> ConstraintViolation<T>.messageWithFieldName() = "${this.propertyPath} ${this.message}"
     }
 }

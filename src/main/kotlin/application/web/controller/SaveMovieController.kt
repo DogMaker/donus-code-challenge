@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import main.application.web.validations.MovieValidations
-import main.commons.ErrorResponse
 import main.domain.entities.Movie
 import main.domain.entities.MovieResponse
 import main.domain.services.SaveMovieService
@@ -21,11 +20,9 @@ object SaveMovieController{
          }.getOrElse {
              throw Exception("Criar DeserializationException")
          }
-        val fields = MovieValidations().requiredFields(json)
-        if(fields.size > 0) {
-            val messageError = ErrorResponse.create("Os campos não devem ser vazios ou nulos", fields)
-            MovieResponse(UUID.randomUUID(), json)
-        }
+        MovieValidations().requiredFields(json)
+        MovieResponse(UUID.randomUUID(), json)
+
         return SaveMovieService().create(json)
      }
 }
