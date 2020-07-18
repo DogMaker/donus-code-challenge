@@ -13,8 +13,7 @@ class MovieValidations {
     private val ary = ArrayList<String>()
 
     fun requiredFields(json: Movie) {
-        validate(json) {
-            validate(Movie::name).isNotBlank().isNotEmpty().hasSize(1,100)
-        }
-    }
+
+                }
+
 }

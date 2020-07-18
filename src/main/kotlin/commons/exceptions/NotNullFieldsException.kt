@@ -1,11 +1,10 @@
 package main.commons.exceptions
 
 import io.ktor.http.HttpStatusCode
-import main.commons.ErrorResponse
 
-class NotNullFieldsException() : MovieApiException() {
-    override fun response() = ErrorResponse
-            .create("Request cannot be processed because it contains invalid data", listOf("Cu temperado"))
+class NotNullFieldsException(private val parameter: String) : MovieApiException() {
+    override fun response() = "Os campos devem estar preenchidos $parameter"
 
     override fun statusCode() = HttpStatusCode.BadRequest
 }
+

@@ -12,8 +12,7 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import main.application.web.controller.SaveMovieController
-import main.application.web.controller.objectMapperConfig
-import main.application.web.validations.MovieValidations
+import main.commons.exceptions.NotNullFieldsException
 
 
 fun Application.routesModule() {
@@ -24,8 +23,20 @@ fun Application.routesModule() {
 
         post("/cadastro") {
             val json = call.receiveText()
-            val responseObj = SaveMovieController.create(json)
-            val responseJson = objectMapperConfig()!!.writeValueAsString(responseObj)
+            val responseObj = try{
+                SaveMovieController.create(json)
+            }catch (e: NotNullFieldsException) {
+                call.respond(
+                   responseTemplate("desearilizar",HttpStatusCode.BadRequest)
+                )
+            } catch (e: NotNullFieldsException) {
+                call.respond(
+                        responseTemplate("Validação",HttpStatusCode.BadRequest)
+                )
+            }
+            val responseJson = SaveMovieController.objectMapperConfig()!!
+                    .writeValueAsString(responseObj)
+
             call.respond(
                     TextContent(
                             responseJson!!,
@@ -35,4 +46,12 @@ fun Application.routesModule() {
             )
         }
     }
+}
+
+fun responseTemplate(contentBody: String, responseCode: HttpStatusCode): TextContent {
+    return TextContent(
+            contentBody,
+            ContentType.Application.Json,
+            responseCode
+    )
 }
