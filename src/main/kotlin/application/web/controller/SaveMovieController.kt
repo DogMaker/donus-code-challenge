@@ -11,9 +11,6 @@ import main.commons.exceptions.DeserializationException
 import main.domain.entities.Movie
 import main.domain.entities.MovieResponse
 import main.domain.services.SaveMovieService
-import org.valiktor.ConstraintViolationException
-import org.valiktor.validate
-
 
 object SaveMovieController{
 
