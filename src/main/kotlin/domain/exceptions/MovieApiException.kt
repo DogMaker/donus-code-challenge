@@ -1,4 +1,4 @@
-package main.commons.exceptions
+package main.domain.exceptions
 
 import io.ktor.http.HttpStatusCode
 
