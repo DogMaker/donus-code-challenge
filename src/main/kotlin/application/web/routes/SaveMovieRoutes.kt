@@ -12,6 +12,7 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import main.application.web.controller.SaveMovieController
+import main.commons.exceptions.DeserializationException
 import main.commons.exceptions.NotNullFieldsException
 
 
@@ -25,16 +26,18 @@ fun Application.routesModule() {
             val json = call.receiveText()
             val responseObj = try{
                 SaveMovieController.create(json)
-            }catch (e: NotNullFieldsException) {
+            }catch (e: DeserializationException) {
                 call.respond(
-                   responseTemplate("desearilizar",HttpStatusCode.BadRequest)
+                        responseTemplate("Desearilation",
+                                HttpStatusCode.BadRequest)
                 )
             } catch (e: NotNullFieldsException) {
                 call.respond(
-                        responseTemplate("Validação",HttpStatusCode.BadRequest)
+                        responseTemplate("Validation",
+                                HttpStatusCode.BadRequest)
                 )
             }
-            val responseJson = SaveMovieController.objectMapperConfig()!!
+            val responseJson = SaveMovieController.objectMapperConfig()
                     .writeValueAsString(responseObj)
 
             call.respond(

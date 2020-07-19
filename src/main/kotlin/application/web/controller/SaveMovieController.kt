@@ -6,24 +6,28 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import main.commons.exceptions.NotNullFieldsException
+import main.application.web.validations.MovieValidations
+import main.commons.exceptions.DeserializationException
 import main.domain.entities.Movie
-import java.lang.Exception
+import main.domain.entities.MovieResponse
+import main.domain.services.SaveMovieService
+import org.valiktor.ConstraintViolationException
+import org.valiktor.validate
 
 
 object SaveMovieController{
 
-    fun create(json: String): Any? {
-        //MovieValidations().requiredFields(json)
-        //MovieResponse(UUID.randomUUID(), movieRequest)
-
-       // return SaveMovieService().create(movieRequest)
-        return try {
-            objectMapperConfig()!!.readValue(json, Movie::class.java)
+    fun create(json: String): MovieResponse {
+        val movieRequest = try {
+            objectMapperConfig().readValue(json, Movie::class.java)
         }catch (e: JsonParseException) {
-              throw  NotNullFieldsException("VOce e trouxa")
+            throw DeserializationException()
         }
-     }
+
+        MovieValidations().requiredFields(movieRequest)
+
+        return SaveMovieService().create(movieRequest)
+    }
     fun objectMapperConfig(): ObjectMapper {
         val objectMapper = jacksonObjectMapper()
         objectMapper.propertyNamingStrategy =  SNAKE_CASE
