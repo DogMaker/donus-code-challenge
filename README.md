@@ -1,5 +1,6 @@
 # donus-code-challenge
 
+```json
 {
 	"movieName": string,
 	"releaseDate": date,
@@ -9,3 +10,4 @@
 		"cast": arrayList
 	}
 }
+```
