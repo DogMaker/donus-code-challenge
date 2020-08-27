@@ -1,13 +1,13 @@
-# donus-code-challenge
+/# donus-code-challenge
 
 ```json
 {
-	"movieName": string,
-	"releaseDate": date,
-	"censured": boolean,
+	"movieName": "A hora do rush"
+	"releaseDate": "19/04/1985"
+	"censured": true,
 	"datails" {
-		"direction": string,
-		"cast": arrayList
+		"direction": "Brett Ratner",
+		"cast": ["Jack Chan", "Chris Tucker"]
 	}
 }
 ```
