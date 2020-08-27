@@ -2,10 +2,10 @@
 
 ```json
 {
-	"movieName": "A hora do rush"
-	"releaseDate": "19/04/1985"
+	"movieName": "A hora do rush",
+	"releaseDate": "19/04/1985",
 	"censured": true,
-	"datails" {
+	"datails":{
 		"direction": "Brett Ratner",
 		"cast": ["Jack Chan", "Chris Tucker"]
 	}
